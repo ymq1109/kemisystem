@@ -45,9 +45,11 @@ export default {
                         var accountName=resp.data.accountName;
                         var token=resp.data.token;
                         var success=resp.data.success;
+                        var response=JSON.stringify(resp.data.response);
                         if(success){
                             //把token保存到本地
                             localStorage.setItem("token",token);
+                            localStorage.setItem("response",response);
                             console.log(this.$route)
                             var query=this.$route.query;
                             //如果query.redirect存在，直接跳转到redirect。不然就跳到根目录
