@@ -45,16 +45,20 @@
     <!-- 新增用户弹框 -->
     <template>
       <el-dialog title="新增用户" :visible.sync="dialogFormVisible">
-        <el-form :model="addUserInfo">
-          <el-form-item label="用户名" :label-width="formLabelWidth">
+        <el-form :model="addUserInfo" :rules="rules" ref="addUserInfo">
+          <el-form-item label="用户名" :label-width="formLabelWidth" prop="username">
             <el-input v-model="addUserInfo.username" autocomplete="off"></el-input>
           </el-form-item>
-          <el-form-item label="密码" :label-width="formLabelWidth">
-            <el-input v-model="addUserInfo.password" autocomplete="off"></el-input>
+          <el-form-item label="密码" :label-width="formLabelWidth" prop="password">
+            <el-input type="password" v-model="addUserInfo.password" autocomplete="off"></el-input>
           </el-form-item>
           <el-form-item label="角色" :label-width="formLabelWidth">
-            <el-checkbox-group v-model="addUserInfo.roles" v-for="(item,index) in allRoles" :key="index">
-              <el-checkbox :label=item._id >{{item.roleName}}</el-checkbox>
+            <el-checkbox-group
+              v-model="addUserInfo.roles"
+              v-for="(item,index) in allRoles"
+              :key="index"
+            >
+              <el-checkbox :label="item._id">{{item.roleName}}</el-checkbox>
             </el-checkbox-group>
           </el-form-item>
         </el-form>
@@ -71,14 +75,20 @@ import { mapGetters } from "vuex";
 export default {
   data() {
     return {
-      
       dialogFormVisible: false,
       addUserInfo: {
         username: "",
         password: "",
         roles: []
       },
-      formLabelWidth: "120px"
+      formLabelWidth: "120px",
+      rules: {
+        username: [
+          { required: true, message: "用户名不能为空", trigger: "blur" }
+        ],
+        password: [{ required: true, message: "密码不能为空", trigger: "blur" }]
+      },
+      message: ""
     };
   },
   computed: {
@@ -104,9 +114,12 @@ export default {
       this.operatorConfirm("删除用户", action);
     },
     addNewUser(item) {
-      this.post(this.$apis.addNewUser, item).then(() => {
-        this.handleClose();
-      });
+      var action=()=>{
+        this.post(this.$apis.addNewUser, item).then(() => {
+          this.handleClose();
+        });
+      }
+    this.operatorConfirm("新增用户", action);
     }
   }
 };

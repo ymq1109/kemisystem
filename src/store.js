@@ -19,7 +19,7 @@ export default new Vuex.Store({
   state: {
     allRoles:[],
     allPermission: [],
-    allUsers:[]
+    allUsers:[],
   },
   getters: {
     allUsers(state){
