@@ -91,6 +91,7 @@
       </template>
     </mq-table>
     <router-view></router-view>
+    <!-- 编辑角色弹框 -->
     <template>
       <el-dialog title="更新角色" :visible.sync="dialogFormVisible">
         <el-form :model="form">
@@ -197,6 +198,7 @@ export default {
   height: 100%;
   padding: 10px;
   box-sizing: border-box;
+  background: white;
 }
 .operator {
   width: 100%;

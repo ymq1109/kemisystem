@@ -10,14 +10,17 @@
         text-color="#fff"
         active-text-color="#ffd04b"
       >
-      <!-- 绑定index，对应分项 -->
+        <!-- 绑定index，对应分项 -->
         <el-submenu :index="'index'+''" v-for="(item,index) in tabs" :key="index">
           <template slot="title">
             <i class="el-icon-location"></i>
             <span>{{item.permissionDesc}}</span>
           </template>
           <el-menu-item-group v-for="(item,key) in item.children" :key="key">
-            <el-menu-item :index="index+'-'+key" @click="pushView({name:item.permissionName})">{{item.permissionDesc}}</el-menu-item>
+            <el-menu-item
+              :index="index+'-'+key"
+              @click="pushView({name:item.permissionName})"
+            >{{item.permissionDesc}}</el-menu-item>
           </el-menu-item-group>
         </el-submenu>
       </el-menu>
@@ -28,7 +31,7 @@
           <i class="el-icon-warning"></i>退出
         </el-button>
       </div>
-    <router-view/>
+      <router-view/>
     </div>
   </div>
 </template>
@@ -57,9 +60,9 @@ export default {
     }
   },
   created() {
-    this.$store.dispatch('loadAllPermission');
-    this.$store.dispatch('loadAllRoles');
-    this.$store.dispatch('loadAllUsers');
+    this.$store.dispatch("loadAllPermission");
+    this.$store.dispatch("loadAllRoles");
+    this.$store.dispatch("loadAllUsers");
   },
   mounted() {
     var response = JSON.parse(localStorage.getItem("response"));
@@ -89,13 +92,14 @@ export default {
   height: 100%;
   display: flex;
   flex-direction: row;
+  background: linear-gradient(180deg, rgb(195, 201, 194), #11674E);
   .NavBar {
     min-width: 200px;
     width: 15%;
     height: 100%;
-    background: linear-gradient(180deg, rgb(195, 201, 194), rgb(195, 230, 189));
-    ul{
-        margin-top: 40px;
+    background: linear-gradient(180deg, rgb(195, 201, 194), #11674E);
+    ul {
+      margin-top: 40px;
     }
   }
   .content {
@@ -104,11 +108,7 @@ export default {
     .topcontent {
       width: 100%;
       height: 5%;
-      background: linear-gradient(
-        180deg,
-        rgb(195, 201, 194),
-        rgb(195, 230, 189)
-      );
+      background: linear-gradient(90deg,  rgb(195, 201, 194), #11674E);
       padding: 5px;
       box-sizing: border-box;
       text-align: right;

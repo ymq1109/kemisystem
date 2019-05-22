@@ -131,6 +131,7 @@ export default {
   height: 100%;
   padding: 10px;
   box-sizing: border-box;
+  background: white;
 }
 .operator {
   width: 100%;
