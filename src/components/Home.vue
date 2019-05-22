@@ -10,13 +10,14 @@
         text-color="#fff"
         active-text-color="#ffd04b"
       >
-        <el-submenu index="1" v-for="(item,index) in tabs" :key="index">
+      <!-- 绑定index，对应分项 -->
+        <el-submenu :index="'index'+''" v-for="(item,index) in tabs" :key="index">
           <template slot="title">
             <i class="el-icon-location"></i>
             <span>{{item.permissionDesc}}</span>
           </template>
-          <el-menu-item-group v-for="(item,index) in item.children" :key="index">
-            <el-menu-item index="1-1">{{item.permissionDesc}}</el-menu-item>
+          <el-menu-item-group v-for="(item,key) in item.children" :key="key">
+            <el-menu-item :index="index+'-'+key" @click="pushView({name:item.permissionName})">{{item.permissionDesc}}</el-menu-item>
           </el-menu-item-group>
         </el-submenu>
       </el-menu>
@@ -27,8 +28,8 @@
           <i class="el-icon-warning"></i>退出
         </el-button>
       </div>
-    </div>
     <router-view/>
+    </div>
   </div>
 </template>
 <script>
@@ -54,6 +55,9 @@ export default {
     handleClose(key, keyPath) {
       console.log(key, keyPath);
     }
+  },
+  created() {
+    this.$store.dispatch('loadAllPermission')
   },
   mounted() {
     var response = JSON.parse(localStorage.getItem("response"));
@@ -88,6 +92,9 @@ export default {
     width: 15%;
     height: 100%;
     background: linear-gradient(180deg, rgb(195, 201, 194), rgb(195, 230, 189));
+    ul{
+        margin-top: 40px;
+    }
   }
   .content {
     width: 85%;

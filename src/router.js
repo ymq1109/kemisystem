@@ -6,23 +6,18 @@ Vue.use(Router)
 
 export default new Router({
   routes: [
-    {path:'/',redirect:'/Home'},
-    {path:'/Home',name:'Home',component:()=>import(/* webpackChunkName:'Home' */ '@/components/Home'),
-      children:[
-        {path:'/System',name:'System',component:()=>import(/* webpackChunkName:'System' */ '@/components/System/System'),
-        children:[
-          {path:'Permission',name:'Permission',component:()=>import(/* webpackChunkName:'Permission' */ '@/components/System/Permission/Permission')},
-          {path:'Role',name:'Role',component:()=>import(/* webpackChunkName:'Role' */ '@/components/System/Role/Role')},
-          {path:'Users',name:'Users',component:()=>import(/* webpackChunkName:'Users' */ '@/components/System/Users/Users')},
+    { path: '/', redirect: '/Home' },
+    {
+      path: '/Home', name: 'Home', component: () => import(/* webpackChunkName:'Home' */ '@/components/Home'),
+      children: [
+        { path: 'PermissionManage', name: 'PermissionManage', component: () => import(/* webpackChunkName:'PermissionManage' */ '@/components/PermissionManage/PermissionManage') },
+        { path: 'RoleManage', name: 'RoleManage', component: () => import(/* webpackChunkName:'RoleManage' */ '@/components/RoleManage/RoleManage')},
+        { path: 'accountManager', name: 'accountManager', component: () => import(/* webpackChunkName:'accountManager' */ '@/components/accountManager/accountManager') },
+        { path: '/LotteryList', name: 'LotteryList', component: () => import(/* webpackChunkName:'LotteryList' */ '@/components/LotteryList/LotteryList') },
+        { path: '/Advert', name: 'Advert', component: () => import(/* webpackChunkName:'Advert' */ '@/components/Advert/Advert') },
       ]
-      },
-        {path:'/News',name:'News',component:()=>import(/* webpackChunkName:'News' */ '@/components/News/News') },
-        {path:'/Games',name:'Games',component:()=>import(/* webpackChunkName:'Games' */ '@/components/Games/Games')},
-        {path:'/Advert',name:'Advert',component:()=>import(/* webpackChunkName:'Advert' */ '@/components/Advert/Advert')},
-        
-      ]
-  },
-    {path:'/Login',name:'Login',component:()=>import(/* webpackChunkName:'Login' */ '@/components/Login/Login')},
-   
+    },
+    { path: '/Login', name: 'Login', component: () => import(/* webpackChunkName:'Login' */ '@/components/Login/Login') },
+
   ]
 })

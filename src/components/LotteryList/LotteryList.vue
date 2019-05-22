@@ -1,6 +1,6 @@
 <template>
-    <div id="Role">
-        我是角色管理
+    <div id="LotteryList">
+        我是彩票
     </div>
 </template>
 <script>

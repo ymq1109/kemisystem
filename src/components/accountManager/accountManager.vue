@@ -1,6 +1,6 @@
 <template>
-    <div id="Games">
-        我是彩票
+    <div id="accountManager">
+        我是用户管理
     </div>
 </template>
 <script>

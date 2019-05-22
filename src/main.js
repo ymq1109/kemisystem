@@ -17,6 +17,10 @@ Vue.use(ElementUI)
 //引入mixin
 import "@/mixins"
 
+import mqTable from '@/components/Commons/mqTable'
+Vue.component('mq-table',mqTable)
+
+
 router.beforeEach((to,from,next)=>{
   if(to.path==='/login'){
      next();
