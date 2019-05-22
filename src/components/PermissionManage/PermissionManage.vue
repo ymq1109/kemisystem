@@ -62,7 +62,7 @@
           :props="defaultProps"
         >
         </el-tree>
-        <el-button type="danger" @click="deletePermission(_id)">删除</el-button>
+        <!-- <el-button type="danger" @click="deletePermission(_id)">删除</el-button> -->
       </template>
     </mq-table>
   </div>
@@ -107,15 +107,15 @@ export default {
       })
     },
     //可以在vuex里通过id查询所有的权限，然后通过点击删除的时候，弹出对话框，然后根据id点击删除。
-    deletePermission(_id){
-      var action = () => {
-        this.post(this.$apis.deletePermission, { _id: _id }).then(() => {
-          this.handleClose();
-        });
-      };
-      this.operatorConfirm("删除角色", action);
+    // deletePermission(_id){
+    //   var action = () => {
+    //     this.post(this.$apis.deletePermission, { _id: _id }).then(() => {
+    //       this.handleClose();
+    //     });
+    //   };
+    //   this.operatorConfirm("删除角色", action);
      
-    }
+    // }
   },
 };
 </script>
