@@ -57,7 +57,9 @@ export default {
     }
   },
   created() {
-    this.$store.dispatch('loadAllPermission')
+    this.$store.dispatch('loadAllPermission');
+    this.$store.dispatch('loadAllRoles');
+    this.$store.dispatch('loadAllUsers');
   },
   mounted() {
     var response = JSON.parse(localStorage.getItem("response"));

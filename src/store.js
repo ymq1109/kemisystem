@@ -17,12 +17,26 @@ const loadAction = (commit, payload, mutationName) => {
 
 export default new Vuex.Store({
   state: {
-    allPermission: []
+    allRoles:[],
+    allPermission: [],
+    allUsers:[]
   },
   getters: {
+    allUsers(state){
+      console.log(state);
+      if(state.allUsers.allUsers){
+        return state.allUsers.allUsers;
+      }
+      
+    },
+    allRoles(state){
+      console.log(state);
+      if(state.allRoles.allRoles){
+        return state.allRoles.allRoles;
+      }
+    },
     allPermission(state) {
       var allPermission = [];
-
       if (state.allPermission.allPermission) {
         allPermission = state.allPermission.allPermission;
         var length = state.allPermission.allPermission.length;
@@ -47,12 +61,26 @@ export default new Vuex.Store({
   mutations: {
     LOADALLPERMISSION(state, payload) {
       state.allPermission = payload;
+    },
+    LOADALLROLES(state,payload){
+      state.allRoles=payload;
+    },
+    LOADALLUSERS(state,payload){
+      state.allUsers=payload;
     }
   },
   actions: {
     loadAllPermission({ commit }, payload = {}) {
       payload.api = apis.showAllPermission;
       loadAction(commit, payload, 'LOADALLPERMISSION')
+    },
+    loadAllRoles({ commit }, payload = {}) {
+      payload.api = apis.findAllRoles;
+      loadAction(commit, payload, 'LOADALLROLES')
+    },
+    loadAllUsers({commit},payload={}){
+      payload.api=apis.findAllUsers;
+      loadAction(commit,payload,'LOADALLUSERS')
     }
   }
 
