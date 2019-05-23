@@ -10,7 +10,11 @@ export default new Router({
     {
       path: '/Home', name: 'Home', component: () => import(/* webpackChunkName:'Home' */ '@/components/Home'),
       children: [
-        { path: 'PermissionManage', name: 'PermissionManage', component: () => import(/* webpackChunkName:'PermissionManage' */ '@/components/PermissionManage/PermissionManage') },
+        { path: 'PermissionManage', name: 'PermissionManage', component: () => import(/* webpackChunkName:'PermissionManage' */ '@/components/PermissionManage/PermissionManage'),
+          children:[
+            { path: 'addNewPersmission', name: 'addNewPersmission', component: () => import(/* webpackChunkName:'addNewPersmission' */ '@/components/PermissionManage/addNewPersmission')}
+          ]
+      },
         { path: 'RoleManage', name: 'RoleManage', component: () => import(/* webpackChunkName:'RoleManage' */ '@/components/RoleManage/RoleManage')},
         { path: 'accountManager', name: 'accountManager', component: () => import(/* webpackChunkName:'accountManager' */ '@/components/accountManager/accountManager') },
         { path: '/LotteryList', name: 'LotteryList', component: () => import(/* webpackChunkName:'LotteryList' */ '@/components/LotteryList/LotteryList') },

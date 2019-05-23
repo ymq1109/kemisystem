@@ -26,7 +26,7 @@
               <td style="width:150px">
                 <div class="operator">
                   <!-- 编辑用户 -->
-                  <el-button type="primary" size="mini" @click="dialogFormVisible = true">编辑用户</el-button>
+                  <el-button type="primary" size="mini" @click="updateUserInfo(item)">编辑用户</el-button>
                   <!-- 删除用户 -->
                   <el-button type="danger" @click="deleteUser(item)" size="mini">删除用户</el-button>
                 </div>
@@ -64,7 +64,7 @@
         </el-form>
         <div slot="footer" class="dialog-footer">
           <el-button @click="cancel">取 消</el-button>
-          <el-button type="primary" @click="addNewUser(addUserInfo) ">确 定</el-button>
+          <el-button type="primary" @click="addNewUser(addUserInfo) ">{{isUpdateArticle?'更新':'确定'}}</el-button>
         </div>
       </el-dialog>
     </template>
@@ -75,6 +75,7 @@ import { mapGetters } from "vuex";
 export default {
   data() {
     return {
+      isUpdateArticle:false,
       dialogFormVisible: false,
       addUserInfo: {
         username: "",
@@ -114,13 +115,31 @@ export default {
       this.operatorConfirm("删除用户", action);
     },
     addNewUser(item) {
+      this.isUpdateArticle = false;
       var action=()=>{
         this.post(this.$apis.addNewUser, item).then(() => {
           this.handleClose();
         });
       }
     this.operatorConfirm("新增用户", action);
-    }
+    },
+    //把新增里的addUserInfo的内容，赋值给item，就可以拿到了。
+    updateUserInfo(item){
+      console.log(item)
+      this.isUpdateArticle = true;
+      this.dialogFormVisible = true;
+      this.addUserInfo.username=item.username;
+      this.addUserInfo.password=item.password;
+      this.addUserInfo.roles=item.roles;
+      var action=()=>{
+      this.post(this.$apis.updateUserInfo,item)
+      .then(()=>{
+        this.handleClose();
+      })
+
+      this.operatorConfirm("更新用户信息", action);
+      }
+    },
   }
 };
 </script>
