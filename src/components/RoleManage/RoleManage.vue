@@ -19,38 +19,30 @@
           >
             <span>
               <template>
-                <table :model="roleInfo" :rules="rules" ref="roleInfo">
-                  <tr>
-                    <td style="margin:5px;">角色名称</td>
-                    <td>
-                      <input style="margin:5px;" v-model="roleInfo.roleName" placeholder="输入角色名称">
-                    </td>
-                  </tr>
-                  <tr>
-                    <td style="margin:5px;">角色描述</td>
-                    <td>
-                      <input style="margin:5px;" v-model="roleInfo.roleDesc" placeholder="输入角色描述">
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <el-tree
-                        v-model="roleInfo.permissions"
-                        :data="allPermission"
-                        show-checkbox
-                        node-key="permissionDesc"
-                        :default-expanded-keys="[2, 3]"
-                        :default-checked-keys="[5]"
-                        :props="defaultProps"
-                      ></el-tree>
-                    </td>
-                  </tr>
-                </table>
+                <el-form :model="roleInfo" :rules="rules" ref="roleInfo">
+                  <el-form-item label="角色名称" prop="roleName">
+                    <el-input v-model="roleInfo.roleName" placeholder="输入角色名称" autocomplete="off"></el-input>
+                  </el-form-item>
+                  <el-form-item label="角色描述" prop="roleDesc">
+                    <el-input v-model="roleInfo.roleDesc" placeholder="输入角色描述" autocomplete="off"></el-input>
+                  </el-form-item>
+                  <el-form-item label>
+                    <el-tree
+                      v-model="roleInfo.permissions"
+                      :data="allPermission"
+                      show-checkbox
+                      node-key="permissionDesc"
+                      :default-expanded-keys="[2, 3]"
+                      :default-checked-keys="[5]"
+                      :props="defaultProps"
+                    ></el-tree>
+                  </el-form-item>
+                </el-form>
               </template>
             </span>
             <span slot="footer" class="dialog-footer">
               <el-button @click="cancel">取 消</el-button>
-              <el-button type="primary" @click="addNewRole">确 定</el-button>
+              <el-button type="primary" @click="addNewRole">{{isupdateRoleInfo?'更新':'确定'}}</el-button>
             </span>
           </el-dialog>
         </template>
@@ -73,7 +65,7 @@
               <td style="width:150px">
                 <div class="operator">
                   <!-- 编辑角色 -->
-                  <el-button type="primary" size="mini" @click="dialogFormVisible = true">编辑角色</el-button>
+                  <el-button type="primary" size="mini" @click="updateRoleInfo(item)">编辑角色</el-button>
                   <!-- 删除角色 -->
                   <el-button type="danger" @click="deleteRole(item._id)" size="mini">删除角色</el-button>
                 </div>
@@ -91,26 +83,6 @@
       </template>
     </mq-table>
     <router-view></router-view>
-    <!-- 编辑角色弹框 -->
-    <template>
-      <el-dialog title="更新角色" :visible.sync="dialogFormVisible">
-        <el-form :model="form">
-          <el-form-item label="活动名称" :label-width="formLabelWidth">
-            <el-input v-model="form.name" autocomplete="off"></el-input>
-          </el-form-item>
-          <el-form-item label="活动区域" :label-width="formLabelWidth">
-            <el-select v-model="form.region" placeholder="请选择活动区域">
-              <el-option label="区域一" value="shanghai"></el-option>
-              <el-option label="区域二" value="beijing"></el-option>
-            </el-select>
-          </el-form-item>
-        </el-form>
-        <div slot="footer" class="dialog-footer">
-          <el-button @click="dialogFormVisible = false">取 消</el-button>
-          <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
-        </div>
-      </el-dialog>
-    </template>
   </div>
 </template>
 <script>
@@ -123,10 +95,6 @@ export default {
         roleDesc: "",
         permissions: ""
       },
-      uproleInfo: {
-        _id: "",
-        permissions: ""
-      },
       rules: {
         roleName: [
           { required: true, message: "角色名称不能为空", trigger: "blur" }
@@ -136,23 +104,12 @@ export default {
         ]
       },
       message: "",
-      dialogFormVisible: false,
+      isupdateRoleInfo: false,
       dialogVisible: false,
       defaultProps: {
         children: "children",
         label: "permissionDesc"
-      },
-      form: {
-        name: "",
-        region: "",
-        date1: "",
-        date2: "",
-        delivery: false,
-        type: [],
-        resource: "",
-        desc: ""
-      },
-      formLabelWidth: "120px"
+      }
     };
   },
   // 引入vuex里的数据
@@ -179,14 +136,31 @@ export default {
       this.operatorConfirm("删除角色", action);
     },
     addNewRole() {
-      this.post(this.$apis.addNewRole, this.roleInfo).then(() => {
-        this.handleClose();
+      console.log(this.$refs.roleInfo);
+      this.$refs.roleInfo.validate(valid => {
+        if (valid) {
+          var url = "";
+          if (this.isupdateRoleInfo) {
+            url = this.$apis.updateRoleInfo;
+          } else {
+            url = this.$apis.addNewRole;
+          }
+          this.post(url, this.roleInfo)
+          .then((resp) => {
+            this.handleClose();
+          });
+        } else {
+          return false;
+        }
       });
     },
-    updateRoleInfo() {
-      this.post(this.$apis.updateRoleInfo, this.uproleInfo).then(() => {
-        this.handleClose();
-      });
+    updateRoleInfo(item) {
+      this.dialogVisible = true;
+      this.isupdateRoleInfo = true;
+      this.roleInfo.roleName = item.roleName;
+      this.roleInfo.roleDesc = item.roleDesc;
+      this.roleInfo.permissions = item.permissions;
+      this.roleInfo._id = item._id;
     }
   }
 };

@@ -64,7 +64,7 @@
         </el-form>
         <div slot="footer" class="dialog-footer">
           <el-button @click="cancel">取 消</el-button>
-          <el-button type="primary" @click="addNewUser(addUserInfo) ">{{isUpdateArticle?'更新':'确定'}}</el-button>
+          <el-button type="primary" @click="addNewUser ">{{isUpdateUser?'更新':'确定'}}</el-button>
         </div>
       </el-dialog>
     </template>
@@ -75,7 +75,7 @@ import { mapGetters } from "vuex";
 export default {
   data() {
     return {
-      isUpdateArticle:false,
+      isUpdateUser:false,
       dialogFormVisible: false,
       addUserInfo: {
         username: "",
@@ -114,31 +114,36 @@ export default {
       };
       this.operatorConfirm("删除用户", action);
     },
-    addNewUser(item) {
-      this.isUpdateArticle = false;
-      var action=()=>{
-        this.post(this.$apis.addNewUser, item).then(() => {
-          this.handleClose();
-        });
-      }
-    this.operatorConfirm("新增用户", action);
+    addNewUser() {
+      this.$refs.addUserInfo.validate((valid)=>{
+        if(valid){
+
+          var  url='';
+          if(this.isUpdateUser){ //更新
+            url=this.$apis.updateUserInfo;
+          }else{   //新增
+            url=this.$apis.addNewUser;
+          }
+          this.post(url,this.addUserInfo)
+          .then((resp)=>{
+            console.log("resp",resp)
+            this.handleClose();
+          })
+        }else{
+                    return false;
+                }
+      })
+
     },
     //把新增里的addUserInfo的内容，赋值给item，就可以拿到了。
     updateUserInfo(item){
       console.log(item)
-      this.isUpdateArticle = true;
+      this.isUpdateUser = true;
       this.dialogFormVisible = true;
       this.addUserInfo.username=item.username;
       this.addUserInfo.password=item.password;
       this.addUserInfo.roles=item.roles;
-      var action=()=>{
-      this.post(this.$apis.updateUserInfo,item)
-      .then(()=>{
-        this.handleClose();
-      })
-
-      this.operatorConfirm("更新用户信息", action);
-      }
+      this.addUserInfo._id=item._id
     },
   }
 };

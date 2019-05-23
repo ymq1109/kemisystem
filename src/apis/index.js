@@ -14,7 +14,7 @@ var apis = {
     //角色管理
     deleteRole:'/system/role/deleteRole',//删除角色
     addNewRole:'/system/role/addNewRole',//新增角色
-    updateRoleInfo:'/system/permission/updateRoleInfo',//更新角色信息
+    updateRoleInfo:'/updateRoleInfo',//更新角色信息
     findAllRoles:'/system/role/findAllRoles',//查询所有角色
     findRoleInfoById:'/system/role/findRoleInfoById',//查询角色信息
 
