@@ -63,11 +63,11 @@ export default {
     this.$store.dispatch("loadAllPermission");
     this.$store.dispatch("loadAllRoles");
     this.$store.dispatch("loadAllUsers");
+    this.$store.dispatch("loadAllGames")
   },
   mounted() {
     var response = JSON.parse(localStorage.getItem("response"));
     this.permissions = response.permissions;
-    console.log(this.permissions);
     var length = this.permissions.length;
     for (var i = 0; i < length; i++) {
       if (this.permissions[i].parentid == 0) {
@@ -82,7 +82,6 @@ export default {
         }
       }
     }
-    console.log(this.tabs);
   }
 };
 </script>

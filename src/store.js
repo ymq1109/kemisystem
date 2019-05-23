@@ -17,21 +17,25 @@ const loadAction = (commit, payload, mutationName) => {
 
 export default new Vuex.Store({
   state: {
-    allRoles:[],
+    allRoles: [],
     allPermission: [],
-    allUsers:[],
+    allUsers: [],
+    AllGames: []
   },
   getters: {
-    allUsers(state){
-      console.log(state);
-      if(state.allUsers.allUsers){
+    AllGames(state) {
+      if(state.AllGames.data){
+        var games = state.AllGames.data[0].games;
+        return games
+      }
+    },
+    allUsers(state) {
+      if (state.allUsers.allUsers) {
         return state.allUsers.allUsers;
       }
-      
     },
-    allRoles(state){
-      console.log(state);
-      if(state.allRoles.allRoles){
+    allRoles(state) {
+      if (state.allRoles.allRoles) {
         return state.allRoles.allRoles;
       }
     },
@@ -62,11 +66,14 @@ export default new Vuex.Store({
     LOADALLPERMISSION(state, payload) {
       state.allPermission = payload;
     },
-    LOADALLROLES(state,payload){
-      state.allRoles=payload;
+    LOADALLROLES(state, payload) {
+      state.allRoles = payload;
     },
-    LOADALLUSERS(state,payload){
-      state.allUsers=payload;
+    LOADALLUSERS(state, payload) {
+      state.allUsers = payload;
+    },
+    LOADALLGAMES(state,payload){
+      state.AllGames=payload;
     }
   },
   actions: {
@@ -78,9 +85,13 @@ export default new Vuex.Store({
       payload.api = apis.findAllRoles;
       loadAction(commit, payload, 'LOADALLROLES')
     },
-    loadAllUsers({commit},payload={}){
-      payload.api=apis.findAllUsers;
-      loadAction(commit,payload,'LOADALLUSERS')
+    loadAllUsers({ commit }, payload = {}) {
+      payload.api = apis.findAllUsers;
+      loadAction(commit, payload, 'LOADALLUSERS')
+    },
+    loadAllGames({commit},payload={}){
+      payload.api=apis.findAllGames;
+      loadAction(commit,payload,'LOADALLGAMES')
     }
   }
 

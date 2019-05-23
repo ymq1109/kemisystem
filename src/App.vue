@@ -6,7 +6,6 @@
 <script>
 export default {
   mounted() {
-    console.log(this.$apis);
   },
 }
 </script>

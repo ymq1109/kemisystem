@@ -1,11 +1,9 @@
 import axios from 'axios'
 import Vue from 'vue'
 axios.defaults.baseURL = process.env.VUE_APP_BaseURL;
-console.log(process.env);
 // 配置拦截器
 // 请求拦截器
 axios.interceptors.request.use(function (config) {
-  console.log("config",config)
     var token=localStorage.getItem("token");
     config.headers.common['Authorization']="Bearer "+token;
     return config;
