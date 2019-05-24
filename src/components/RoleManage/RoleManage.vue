@@ -137,7 +137,7 @@ export default {
     },
     addNewRole() {
       console.log(this.$refs.roleInfo);
-      this.$refs.roleInfo.validate(valid => {
+      this.$refs.roleInfo.validate((valid) => {
         if (valid) {
           var url = "";
           if (this.isupdateRoleInfo) {
