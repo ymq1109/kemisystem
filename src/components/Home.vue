@@ -31,7 +31,11 @@
           <i class="el-icon-warning"></i>退出
         </el-button>
       </div>
-      <router-view/>
+      <transition 
+                enter-active-class="animated zoomInRight"
+                leave-active-class="animated zoomOutRight">
+                <router-view/>
+      </transition>
     </div>
   </div>
 </template>

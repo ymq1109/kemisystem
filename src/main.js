@@ -5,6 +5,7 @@ import store from './store'
 import './registerServiceWorker'
 import './utils/mqaxios'
 import './apis'
+import  'animate.css'
 
 Vue.config.productionTip = false
 import "reset-css"

@@ -1,36 +1,34 @@
 <template>
   <div id="findByGameName">
-    <table class="dataTable" ref="dataTable">
+    <table class="dataTable" border="1" bordercolor="#000000" cellspacing="0" ref="dataTable">
       <tbody>
-        <tr style="background-color:pink;">
+        <tr style="background-color: rgb(255, 233, 216);" border="1">
           <th style="width:70px">旗号</th>
-          <th v-for="(item,key) in 33" :key="key">{{ item <10 ?'0'+item:item}}</th>
-          <th v-for="item in 16" :key="item+'dfdfd'">{{item<10?'0'+item:item}}</th>
+          <th v-for="(item,key) in 33" :key="key+'item'">{{item>=10?item:'0'+item}}</th>
+          <th v-for="item in 16" :key="item+'niag'">{{item>=10?item:'0'+item}}</th>
         </tr>
-        <tr v-for="(item,key) in result" :key="key+'fvgfvg'">
+        <tr v-for="(item,key) in result" :key="key+'fvgfvg'" border="1">
           <td style="width:70px">{{item.period}}</td>
           <td
             v-for="(general,index) in item.missNumber.general"
-            :class="general>0?'general':index<33?'ball_red':'ball_blue'"
-            :ref="general>0?{}:index<33?'ball_red':'ball_blue'"
-            :key="index+'gffss'"
+            :class="[index+1>33?general>0?'':'ball_blue':general>0?'':'ball_red']"
+            :ref="[index+1>33?general>0?'':'ball_blue':general>0?'':'ball_red']"
+            :key="index+'aklgagj'"
           >
-            {{general>0?general:index<33?(index+1)>9?(index+1):'0'+(index+1):
-            (index-32)>9?(index-32):'0'+(index-32)
-            }}
+            {{general>0?general:index+1>33?index+1-33:index+1}}
           </td>
         </tr>
       </tbody>
     </table>
-    <template  >
-                <el-pagination
-                    background
-                    layout="prev, pager, next"
-                    :total="total"
-                    :page-size = pageSize
-                    @current-change="loadMore">
-                </el-pagination>
-            </template>
+    <template>
+      <el-pagination
+        background
+        layout="prev, pager, next"
+        :total="total"
+        :page-size="pageSize"
+        @current-change="loadMore"
+      ></el-pagination>
+    </template>
     <canvas id="canvas" ref="canvas"></canvas>
   </div>
 </template>
@@ -40,23 +38,23 @@ export default {
     return {
       result: [],
       positionArray: [],
-      total:0,
-      pageSize:20
+      total: 0,
+      pageSize: 20
     };
   },
   methods: {
-      loadMore(pageNo){
-this.$http
-      .get(this.$apis.findByGameName, {
-        gameName: this.$route.query,
-        pageSize: 20,
-        pageNo: pageNo
-      })
-      .then(resp => {
-        this.result = resp.data.data.data;
-        console.log("result", this.result);
-      });      
-      },
+    loadMore(pageNo) {
+      this.$http
+        .get(this.$apis.findByGameName, {
+          gameName: this.$route.query,
+          pageSize: 20,
+          pageNo: pageNo
+        })
+        .then(resp => {
+          this.result = resp.data.data.data;
+          console.log("result", this.result);
+        });
+    },
     lineToAllBlue() {
       /*
                     this.$refs.canvas: 获取画布元素
@@ -76,10 +74,10 @@ this.$http
       // 获取所有存储在this.$refs对象中的篮球选项
       var blueBalls = this.$refs["ball_blue"];
       // 遍历所有的蓝球选项
-      for (var i = 0; i < blueBalls.length ; i++) {
+      for (var i = 0; i < blueBalls.length; i++) {
         // 获取蓝球的坐标x轴和y轴
-        var x = blueBalls[i].offsetLeft + 15;
-        var y = blueBalls[i].offsetTop - 10;
+        var x = blueBalls[i].offsetLeft + 20;
+        var y = blueBalls[i].offsetTop - 9;
         // 如果i=0,代表的是第一行,那就是作为线条的起点
         if (i == 0) {
           // 将笔触移动到该位置上
@@ -107,22 +105,19 @@ this.$http
       .then(resp => {
         this.result = resp.data.data.data;
         console.log("result", this.result);
-        this.total = resp.data.total
+        this.total = resp.data.total;
       });
   },
   updated() {
-    this.lineToAllBlue();
+    var _this = this;
+    setTimeout(() => {
+      _this.lineToAllBlue();
+    }, 100);
   }
 };
 </script>
 <style lang="scss" scoped>
-* {
-  margin: 0;
-  padding: 0;
-}
-body {
-  font: 12px/1.5 arial, 宋体;
-}
+
 #findByGameName {
   position: absolute;
   top: 0;
@@ -134,30 +129,16 @@ body {
   margin: 0 auto 0 auto;
 }
 
-#findByGameName .ssqContainer {
-  border: 1px solid #c9c9c9;
-  width: 100%;
-  margin: 0 auto;
-}
-
-#findByGameName .ssqContainer table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-#findByGameName .ssqContainer table tr {
-  width: 100%;
-  height: 22px;
-}
-
-#findByGameName .ssqContainer table tr td,
-#findByGameName .ssqContainer table tr th {
-  border: 1px solid lightgray;
-  height: 100%;
+table{
   text-align: center;
+  border:1px solid black;
+  td{
+    border:1px solid black;
+  }
 }
-
 .ball_red {
+  width:20px;
+				height: 20px;
   background-image: url(./ball18px.png);
   background-repeat: no-repeat;
   color: white;
@@ -165,6 +146,8 @@ body {
 }
 
 .ball_blue {
+  width:20px;
+				height: 20px;
   background-image: url(./ball18px.png);
   background-repeat: no-repeat;
   color: white;
